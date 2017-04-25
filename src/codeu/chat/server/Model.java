@@ -96,6 +96,8 @@ public final class Model {
     conversationById.insert(conversation.id, conversation);
     conversationByTime.insert(conversation.creation, conversation);
     conversationByText.insert(conversation.title, conversation);
+
+
   }
 
   public StoreAccessor<Uuid, Conversation> conversationById() {
