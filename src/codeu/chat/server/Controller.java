@@ -102,6 +102,29 @@ public final class Controller implements RawController, BasicController {
     return message;
   }
 
+  // newUser methods that incorporate passwords
+  public User newUser(String name,String pass) {
+    return newUser(createId(), name, Time.now(),pass);
+  }
+  public User newUser(Uuid id, String name, Time creationTime, String pass){
+    User user = null;
+    if(isIdFree(id)){
+      user = new User(id,name,creationTime,pass);
+      model.add(user);
+      LOG.info(
+              "newUser success (user.id=%s user.name=%s user.time=%s)",
+              id,name,creationTime);
+    }else{
+      LOG.info(
+              "newUser fail - id in use (user.id=%s user.name=%s user.time=%s)",
+              id,
+              name,
+              creationTime);
+    }
+    return user;
+  }
+
+
   @Override
   public User newUser(Uuid id, String name, Time creationTime) {
 

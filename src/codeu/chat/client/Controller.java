@@ -64,7 +64,7 @@ public class Controller implements BasicController {
 
     return response;
   }
-
+  // Note: I think this is where it sends the user data - Liam
   @Override
   public User newUser(String name) {
 
@@ -72,10 +72,13 @@ public class Controller implements BasicController {
 
     try (final Connection connection = source.connect()) {
 
+      // so this sends a NEW_USER_REQUEST to the server (integer)
+      // and also writes the name. I supposed then we can write a password alongside
       Serializers.INTEGER.write(connection.out(), NetworkCode.NEW_USER_REQUEST);
       Serializers.STRING.write(connection.out(), name);
       LOG.info("newUser: Request completed.");
 
+      // Verifying what comes back? Reads in an integer and NEW_USER_RESPONSE
       if (Serializers.INTEGER.read(connection.in()) == NetworkCode.NEW_USER_RESPONSE) {
         response = Serializers.nullable(User.SERIALIZER).read(connection.in());
         LOG.info("newUser: Response completed.");

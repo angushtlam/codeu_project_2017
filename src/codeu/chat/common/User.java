@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import codeu.chat.server.Password;
 import codeu.chat.util.Serializer;
 import codeu.chat.util.Serializers;
 import codeu.chat.common.Uuid;
@@ -51,12 +52,28 @@ public final class User {
   public final Uuid id;
   public final String name;
   public final Time creation;
+  public final byte[] salt;
+  public final String hashedPassword;
 
+  // Will be depreciated when I convert user creation to need a password
   public User(Uuid id, String name, Time creation) {
 
     this.id = id;
     this.name = name;
     this.creation = creation;
+    this.salt = null;
+    this.hashedPassword = null;
+
+  }
+
+  // New (correct) User constructor. (Use it if you're making new users for any reason)
+  public User(Uuid id, String name, Time creation, String plainTextPassword) {
+
+    this.id = id;
+    this.name = name;
+    this.creation = creation;
+    this.salt = Password.getSalt();
+    this.hashedPassword = Password.hash(plainTextPassword,salt);
 
   }
 }

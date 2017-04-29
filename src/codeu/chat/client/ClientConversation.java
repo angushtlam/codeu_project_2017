@@ -113,6 +113,16 @@ public final class ClientConversation {
     }
   }
 
+  public String getAllConversations(){
+    updateAllConversations(false);
+    String output = "";
+    for(final ConversationSummary c : summariesByUuid.values()){
+      output+=c.title;
+      output+="\n";
+    }
+    return output;
+  }
+
   // Get a single conversation from the server.
   public Conversation getConversation(Uuid conversationId) {
     for (final Conversation c : view.getConversations(Arrays.asList(conversationId))) {

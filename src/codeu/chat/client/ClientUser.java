@@ -102,11 +102,37 @@ public final class ClientUser {
     }
   }
 
+  // TODO
+  public void addUser(String name, String pass){
+    final boolean validInputs = isValidName(name);
+
+    final User user = (validInputs) ? controller.newUser(name) : null;
+
+    if (user == null) {
+      System.out.format("Error: user not created - %s.\n",
+              (validInputs) ? "server failure" : "bad input value");
+    } else {
+      LOG.info("New user complete, Name= \"%s\" UUID=%s", user.name, user.id);
+      updateUsers();
+    }
+  }
+
   public void showAllUsers() {
     updateUsers();
     for (final User u : usersByName.all()) {
       printUser(u);
     }
+  }
+
+  // TODO
+  public String getAllUsers(){
+    updateUsers();
+    String output = "";
+    for(final User u: usersByName.all()){
+      output+=getUserInfoString(u);
+      output+="\n";
+    }
+    return output;
   }
 
   public User lookup(Uuid id) {

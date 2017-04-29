@@ -109,6 +109,8 @@ public final class Chat {
       if (!tokenScanner.hasNext()) {
         System.out.println("ERROR: Username not supplied.");
       } else {
+        //String[] userPass = tokenScanner.nextLine().split(":");
+        //addUser(userPass[0],userPass[1]);
         addUser(tokenScanner.nextLine().trim());
       }
 
@@ -268,6 +270,10 @@ public final class Chat {
   // Add a new user.
   private void addUser(String name) {
     clientContext.user.addUser(name);
+  }
+
+  private void addUser(String name, String pass){
+    clientContext.user.addUser(name,pass);
   }
 
   // Display all users known to server.

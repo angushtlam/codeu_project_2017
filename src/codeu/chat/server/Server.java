@@ -100,13 +100,18 @@ public final class Server {
     }
     // TODO: note to self (Liam): Is this something I need to modify for passwords?
     else if (type == NetworkCode.NEW_USER_REQUEST) {
+        //final String name = Serializers.STRING.read(in);
+        //final User user = controller.newUser(name);
 
-        final String name = Serializers.STRING.read(in);
-
+        // TODO: How does this work exactly? Where is it sending this User object
+        final String[] namePass = Serializers.STRING.read(in).split(":");
+        final String name = namePass[0];
+        //final String pass = namePass[1];
+        //final User user = controller.newUser(name,pass);
         final User user = controller.newUser(name);
 
         Serializers.INTEGER.write(out, NetworkCode.NEW_USER_RESPONSE);
-        Serializers.nullable(User.SERIALIZER).write(out, user);
+        Serializers.nullable(User.SERIALIZER).write(out, user); // saves user to the serializer?
 
     } else if (type == NetworkCode.NEW_CONVERSATION_REQUEST) {
 
